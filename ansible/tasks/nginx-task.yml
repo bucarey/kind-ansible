@@ -1,0 +1,7 @@
+---
+- name: "Create a Ingress Controller for Kind from local file"
+  k8s:
+    src: yaml/kind-deploy-ingress-nginx.yaml
+    state: present
+    apply: true
+  register: output

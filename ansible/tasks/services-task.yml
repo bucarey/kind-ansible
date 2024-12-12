@@ -1,0 +1,14 @@
+---
+- name: Instalar chart {{ item.name }}
+  kubernetes.core.helm:
+    name: "{{ item.name }}"
+    chart_ref: "oci://{{ item.chart}}"
+    chart_version: "{{ item.tag }}"
+    namespace: "{{ item.namespace }}"
+    values: "{{ item.chart_values }}"
+  register: output
+
+- name: "Verificar despliegue de {{ item.name }}"
+  assert:
+    that:
+      - output.status.status == "deployed"

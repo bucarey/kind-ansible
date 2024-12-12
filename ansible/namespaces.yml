@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  connection: local
+  collections:
+    - kubernetes.core.helm
+  tasks:
+    - name: Reference namespaces
+      include_vars:
+          dir: "local/values"
+          files_matching: services.yml
+    - name: Crear namespaces
+      include_tasks: tasks/namespaces.yml

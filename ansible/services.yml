@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  collections:
+    - kubernetes.core.helm
+  tasks:
+    - name: Variables comunes
+      include_vars:
+          dir: "local/values"
+          files_matching: common.yml
+    - name: Servicios
+      include_vars:
+          dir: "local/values"
+          files_matching: services.yml
+    - name: Crear servicios
+      include_tasks: tasks/aks_services.yml
+      loop: "{{ services }}"

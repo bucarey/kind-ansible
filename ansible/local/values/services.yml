@@ -1,0 +1,33 @@
+services:
+  - name: without-ingress-service
+    namespace: without-ingress
+    chart: localhost:5001/helm/without-ingress-service
+    tag: 0.0.1
+    chart_values:
+      image:
+        repository: localhost:5001/without-ingress
+        tag: 0.0.1
+        pullPolicy: "{{ imagePullPolicy }}"
+      assets:
+        - name: without-ingress-config
+          files:
+            - key: appsettings.json
+              path: /app/appsettings.Production.json
+
+  - name: exposed-api
+    namespace: exposed
+    chart: localhost:5001/helm/exposed-api
+    tag: 0.0.1
+    chart_values:
+      image:
+        repository: localhost:5001/exposed
+        tag: 0.0.1
+        pullPolicy: "{{ imagePullPolicy }}"
+      ingress:
+        annotations:
+          nginx.ingress.kubernetes.io/service-upstream: "true"
+      assets:
+        - name: exposed-config
+          files:
+            - key: appsettings.json
+              path: /app/appsettings.Production.json

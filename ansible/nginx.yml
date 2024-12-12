@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  connection: local
+  collections:
+    - kubernetes.core.helm
+  tasks:
+    - name: Crear Nginx
+      include_tasks: tasks/aks_nginx.yml
